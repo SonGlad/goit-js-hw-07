@@ -7,14 +7,12 @@ const refs = {
   
   const markup = galleryItems
     .map((item) => {
-      return `
-        <li class="gallery__item">
+      return `<li class="gallery__item">
         <a class="gallery__link" href="${item.original}">
-        <img class="gallery__image" src="${item.preview}" alt="${item.description}" data-source="${item.original}" /></a>
-        </li>
-      `;
-    })
-    .join("");
+        <img class="gallery__image" src="${item.preview}" alt="${item.description}" data-source="${item.original}"/>
+        </a></li>`;
+    }).join("");
+
   refs.gallery.innerHTML = markup;
   
   refs.gallery.addEventListener("click", openModalWindow);
