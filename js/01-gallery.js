@@ -1,40 +1,48 @@
 import { galleryItems } from './gallery-items.js';
-// Change code below this line
 
 const refs = {
-    gallery: document.querySelector(".gallery"),
-  };
-  
-  const markup = galleryItems
-    .map((item) => {
-      return `<li class="gallery__item">
-        <a class="gallery__link" href="${item.original}">
-        <img class="gallery__image" src="${item.preview}" alt="${item.description}" data-source="${item.original}"/>
-        </a></li>`;
-    }).join("");
+    ulEl: document.querySelector(".gallery"),
+};
 
-  refs.gallery.innerHTML = markup;
-  
-  refs.gallery.addEventListener("click", openModalWindow);
-  function openModalWindow(event) {
+    const creatEl = createElements(galleryItems);
+    refs.ulEl.insertAdjacentHTML("beforeend", creatEl);
+    refs.ulEl.addEventListener('click', openModalWindow);
+
+
+function createElements(galleryItems){
+    return galleryItems.map(({preview, original, description}) => {
+        return ` <li class="gallery__item">
+        <a class="gallery__link" href="${original}">
+            <img
+            class="gallery__image"
+            src="${preview}"
+            data-source=${original}
+            alt="${description}"/></a></li>`
+    }).join('');
+};
+
+function openModalWindow(event){
     event.preventDefault();
-    if (event.target.nodeName !== "IMG") {
-      return;
+    
+    if(event.target.nodeName !== "IMG"){
+        return;
     }
-    const imageUrl = event.target.dataset.source;
-    console.log(imageUrl);
+
+    const originalImg = event.target.dataset.source;
+    console.log(event.target.dataset.source);
     const instance = basicLightbox.create(`
-      <img src="${imageUrl}" width="800" height="600">
-  `);
-    instance.show();
-  
-    const visible = instance.visible();
-  
-    document.addEventListener("keydown", closeModalOnEscape);
-    function closeModalOnEscape(event) {
-      if (event.code === "Escape" && visible) {
-        instance.close();
-        document.removeEventListener("keydown", closeModalOnEscape);
-      }
-    }
-  }
+    <img src="${originalImg}" width="800" height="600">
+`)
+
+instance.show();
+const visible = basicLightbox.visible()
+
+    document.addEventListener('keydown', closeModalOnEscape);
+    function closeModalOnEscape(event){
+        if(event.key === "Escape" && visible){
+            instance.close();
+            document.removeEventListener('keydown', closeModalOnEscape);
+        };
+    };
+};
+
