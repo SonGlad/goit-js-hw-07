@@ -27,16 +27,16 @@ function openModalWindow(event){
     if(event.target.nodeName !== "IMG"){
         return;
     }
-
+    
     const originalImg = event.target.dataset.source;
     console.log(event.target.dataset.source);
     const instance = basicLightbox.create(`
     <img src="${originalImg}" width="800" height="600">
-`)
-
-instance.show();
-const visible = basicLightbox.visible()
-
+    `)
+    
+    instance.show();
+    const visible = basicLightbox.visible()
+    
     document.addEventListener('keydown', closeModalOnEscape);
     function closeModalOnEscape(event){
         if(event.key === "Escape" && visible){
